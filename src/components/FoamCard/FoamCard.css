@@ -1,3 +1,7 @@
+.foam-card-header {
+    text-align: center;
+}
+
 .foam-card-parent-container {
     margin: 1em;
     padding: 1em;
@@ -18,7 +22,7 @@
     width: 9.1em;
 }
 
-.small-container {
+.foam-card-sub-container {
     padding: 0.5em;
 }
 
@@ -37,14 +41,24 @@
     color: white;
 }
 
+.clear-button.ui.button:hover {
+    background-color: #eb002b;
+}
+
 .add-button.ui.button {
-    transition: 0.3s;
     background-color: #015691;
     color: white;
 }
 
 .add-button.ui.button:hover {
-    transition: 0.3s;
     background-color: #015591e3;
     color: white;
+}
+
+.ui.button {
+    transition: 0.3s;
+}
+
+.ui.button:hover {
+    transition: 0.3s;
 }
