@@ -1,0 +1,26 @@
+.upholstery-card-container {
+    border: 2px solid #d70229;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+}
+
+.upholstery-card-header {
+    text-align: center;
+}
+
+.upholstery-card-width-container .ui.input {
+    width: 9em;
+}
+
+.upholstery-card-width-container label {
+    display: block;
+}
+
+.upholstery-card-labour-container label, .upholstery-card-upholstery-container label {
+    margin-right: 1em;
+}
+
+.upholstery-card-subcontainer {
+    margin: 1.4em 1em 1em 1em;
+}

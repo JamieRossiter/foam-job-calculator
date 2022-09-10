@@ -1,0 +1,17 @@
+.add-clear-buttons-parent-container {
+    display: flex;
+    position: relative;
+    left: 2.1em;
+}
+
+.add-clear-buttons-subcontainer {
+    padding-top: 0.5em;
+}
+
+.ui.button {
+    transition: 0.3s;
+}
+
+.ui.button:hover {
+    transition: 0.3s;
+}

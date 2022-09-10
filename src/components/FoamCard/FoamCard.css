@@ -7,58 +7,20 @@
     padding: 1em;
     border: 2px solid #f2c700;
     border-radius: 10px;
-    display: inline-block;
 }
 
 .foam-card-content-container {
-    display: flex;
-}
-
-.foam-card-content-container label {
-    display: block;
-}
-
-.length-input, .width-input {
-    width: 9.1em;
+    display: flex; 
 }
 
 .foam-card-sub-container {
     padding: 0.5em;
 }
 
-.button-parent-container {
-    display: flex;
-    position: relative;
-    top: 1.4em;
+.foam-card-sub-container label {
+    display: block;
 }
 
-.button-parent-container .ui.button {
-    width: 6.4em;
-}
-
-.clear-button.ui.button {
-    background-color: #d70229;
-    color: white;
-}
-
-.clear-button.ui.button:hover {
-    background-color: #eb002b;
-}
-
-.add-button.ui.button {
-    background-color: #015691;
-    color: white;
-}
-
-.add-button.ui.button:hover {
-    background-color: #015591e3;
-    color: white;
-}
-
-.ui.button {
-    transition: 0.3s;
-}
-
-.ui.button:hover {
-    transition: 0.3s;
+.foam-density-container .ui.avatar.image {
+    border: 1px solid grey;
 }

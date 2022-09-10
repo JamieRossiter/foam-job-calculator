@@ -1,5 +1,5 @@
 import React from "react";
-import { Checkbox, Input, Header } from "semantic-ui-react";
+import { Checkbox, Input, Header, Label } from "semantic-ui-react";
 import "./ExtrasCard.css";
 
 function ExtrasCard() : JSX.Element {
@@ -16,7 +16,7 @@ function ExtrasCard() : JSX.Element {
                 </div>
                 <div className="poly-container extras-card-subcontainer">
                     <label htmlFor="poly-checkbox">Polyester fibre required</label>
-                    <Checkbox defaultChecked={polyRequired} id="poly-checkbox" toggle />
+                    <Checkbox defaultChecked id="poly-checkbox" toggle />
                 </div>
                 <div className="layers-container extras-card-subcontainer">
                     <label htmlFor="layer-input">How many layers?</label>
@@ -24,7 +24,13 @@ function ExtrasCard() : JSX.Element {
                 </div>
                 <div className="labour-container extras-card-subcontainer">
                     <label htmlFor="labour-checkbox">Glue/labour required</label>
-                    <Checkbox id="labour-checkbox" toggle defaultChecked={labourRequired} disabled={!polyRequired} />
+                    <Checkbox id="labour-checkbox" toggle defaultChecked disabled={!polyRequired} />
+                </div>
+                <div className="sides-container extras-card-subcontainer">
+                    <label htmlFor="sides-checkbox" id="sides-container-header-label">Area to cover</label>
+                    <Checkbox id="top-sides-checkbox" name="sides-checkbox" label="Top" defaultChecked disabled={!polyRequired} />
+                    <Checkbox id="sides-sides-checkbox" name="sides-checkbox" label="Sides" defaultChecked disabled={!polyRequired} />
+                    <Checkbox id="bottom-sides-checkbox" name="sides-checkbox" label="Bottom" defaultChecked disabled={!polyRequired} />
                 </div>
             </div>
         </>

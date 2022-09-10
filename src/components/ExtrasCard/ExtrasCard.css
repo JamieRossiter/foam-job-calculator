@@ -8,10 +8,9 @@
 
 .extras-card-container {
     margin: 1em;
-    padding: 2em;
+    padding: 1em 2em 2em 2em;
     border: 2px solid #015691;
     border-radius: 10px;
-    display: inline-block;
 }
 
 .layers-container {
@@ -25,4 +24,10 @@
 
 .extras-card-container label {
     padding-right: 1em;
+}
+
+#sides-container-header-label {
+    display: block;
+    margin-top: 2em;
+    margin-bottom: 0.5em;    
 }
