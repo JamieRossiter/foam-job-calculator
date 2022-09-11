@@ -1,0 +1,17 @@
+.totals-final-parent-container {
+    display: flex;
+}
+
+.totals-final-total-container {
+    margin-top: 1em;
+    margin-left: auto;
+}
+
+.totals-final-header-container {
+    margin-top: 1.3em;
+}
+
+.totals-final-clear-button-container {
+    margin-top: 3em;
+    text-align: center;
+}

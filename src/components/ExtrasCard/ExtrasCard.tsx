@@ -12,7 +12,7 @@ function ExtrasCard() : JSX.Element {
         <>
             <div className="extras-card-container">
                 <div className="extras-card-header-container">
-                    <Header size="medium" className="extras-card-header">Add Polyester Fibre</Header>
+                    <Header size="medium" className="extras-card-header">2. Add Polyester Fibre</Header>
                 </div>
                 <div className="poly-container extras-card-subcontainer">
                     <label htmlFor="poly-checkbox">Polyester fibre required</label>

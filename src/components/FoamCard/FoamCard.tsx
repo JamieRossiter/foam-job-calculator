@@ -21,7 +21,7 @@ function FoamCard() : JSX.Element {
     return(
         <>
             <div className="foam-card-parent-container">
-            <Header size="medium" className="foam-card-header">Add Foam</Header>
+            <Header size="medium" className="foam-card-header">1. Add Foam</Header>
                 <div className="foam-card-content-container">
                     <div className="foam-left-container">
                         <div className="foam-density-container foam-card-sub-container">
@@ -46,7 +46,7 @@ function FoamCard() : JSX.Element {
                     </div>
                 </div>
                 <div className="foam-amount-container foam-card-sub-container">
-                    <label htmlFor="foam-amount">Amount</label>
+                    <label htmlFor="foam-amount">Quantity</label>
                     <Input type="number" id="foam-amount" defaultValue={0} label="cushions" labelPosition="right" />
                 </div>
             </div>

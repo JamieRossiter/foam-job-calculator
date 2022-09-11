@@ -1,7 +1,13 @@
 .app-parent-container {
-    display: inline-block;
+    display: flex;
 }
 
 .app-extras-upholstery-container {
     display: flex;
+}
+
+.app-totals-container {
+    margin-top: 2em;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
 }

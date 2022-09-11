@@ -8,7 +8,7 @@ function UpholsteryCard(): JSX.Element {
     return(
         <>
             <div className="upholstery-card-container">
-                <Header className="upholstery-card-header" size="medium">Add Upholstery</Header>
+                <Header className="upholstery-card-header" size="medium">3. Add Upholstery</Header>
                 <div className="upholstery-card-upholstery-container upholstery-card-subcontainer">
                     <label htmlFor="upholster-card-upholstery-checkbox">Upholstery required</label>
                     <Checkbox id="upholstery-card-upholstery-checkbox" defaultChecked toggle />

@@ -1,0 +1,55 @@
+.totals-item-parent-container {
+    display: flex;
+}
+
+.totals-item-image-container img {
+    width: 3em;
+}
+
+.totals-item-info-container {
+    position: relative;
+    top: 0.3em;
+    margin-left: 0.3em;
+}
+
+.totals-item-name {
+    font-weight: bold;
+}
+
+.totals-item-dimensions {
+    color: grey;
+    font-size: 0.9em;
+    position: relative;
+    bottom: 1.5em;
+}
+
+.totals-item-quantity-container {
+    position: relative;
+    top: 0.5em;
+    margin-left: 1em;
+    margin-right: 1em;
+    font-size: 1.2em;
+}
+
+.totals-item-button-container {
+    position: relative;
+    top: 0.2em;
+    margin-left: 1em;
+}
+
+.totals-item-price-container {
+    position: relative;
+    top: 0.8em;
+}
+
+.totals-item-sku-container {
+    position: relative;
+    top: 0.8em;
+    margin-left: 1em;
+}
+
+.totals-item-price-each {
+    font-size: 0.8em;
+    color: grey;
+    font-style: italic;
+}
