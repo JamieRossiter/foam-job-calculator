@@ -1,22 +1,19 @@
 import React from "react";
-import { Dropdown, Input, Button, Icon, Header, Label } from "semantic-ui-react";
+import { Dropdown, Input, Button, Icon, Header, Label, DropdownProps, InputOnChangeData } from "semantic-ui-react";
 import "./FoamCard.css";
 import { densityList, thicknessList, measurementSystemList } from "../../utils/dropdown_lists";
+import { UserFoamData } from "../../utils/types";
 
-type DropdownItem = {
-    key: string,
-    text: string,
-    value: string
-    image?: { avatar: boolean, src: string }
+type FoamCardProps = {
+    handleChange: Function,
+    currentMeasurementSystem: "mm" | "in"
 }
 
-function FoamCard() : JSX.Element {
+function FoamCard(props: FoamCardProps) : JSX.Element {
 
-    const [ density, setDensity ] = React.useState<string>("");
-    const [ thickness, setThickness ] = React.useState<string>("");
-    const [ dimensions, setDimensions ] = React.useState<[number, number]>([0, 0]);
-    const [ amount, setAmount ] = React.useState<number>(0);
-    const [ measurementSystem, setMeasurementSystem ] = React.useState<string>("mm");
+    function handleChange(key: string, outgoing: any): void {
+        props.handleChange(key, outgoing.value);
+    }
 
     return(
         <>
@@ -26,28 +23,28 @@ function FoamCard() : JSX.Element {
                     <div className="foam-left-container">
                         <div className="foam-density-container foam-card-sub-container">
                             <label htmlFor="densities-select" id="densities-select-label">Foam Density</label>
-                            <Dropdown fluid name="densities-select" id="densities-select" placeholder="Select density..." options={densityList} selection />
+                            <Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("density", data) }} fluid name="densities-select" id="densities-select" placeholder="Select density..." options={densityList} selection />
                         </div>
                         <div className="foam-length-container foam-card-sub-container">
                             <label htmlFor="dimensions-length">Length</label>
-                            <Input className="length-input" type="number" id="dimensions-length" labelPosition="right" placeholder="e.g. 500" label={<Dropdown options={measurementSystemList} defaultValue="millimetres" />} />
+                            <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("length", data) }} className="length-input" type="number" id="dimensions-length" labelPosition="right" placeholder="e.g. 500" label={<Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("measurementSystem", data) }} options={measurementSystemList} defaultValue="mm" value={props.currentMeasurementSystem} />} />
                         </div>
                     </div>
                     <div className="foam-right-container">
                         <div className="foam-thickness-container foam-card-sub-container">
                             <label htmlFor="thicknesses-select">Foam Thickness</label>
-                            <Dropdown fluid name="thicknesses-select" id="thicknesses-select" placeholder="Select thickness..." options={thicknessList} selection />
+                            <Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("thickness", data) }} fluid name="thicknesses-select" id="thicknesses-select" placeholder="Select thickness..." options={thicknessList} selection />
                             {/* <Label>36-130</Label> */}
                         </div>
                         <div className="foam-width-container foam-card-sub-container">
                             <label htmlFor="dimensions-width">Width</label>
-                            <Input className="width-input" type="number" id="dimensions-width" labelPosition="right" placeholder="e.g. 300" label={<Dropdown options={measurementSystemList} defaultValue="millimetres" />} />
+                            <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("width", data) }} className="width-input" type="number" id="dimensions-width" labelPosition="right" placeholder="e.g. 300" label={<Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("measurementSystem", data) }} options={measurementSystemList} defaultValue="mm" value={props.currentMeasurementSystem} />} />
                         </div>
                     </div>
                 </div>
                 <div className="foam-amount-container foam-card-sub-container">
                     <label htmlFor="foam-amount">Quantity</label>
-                    <Input type="number" id="foam-amount" defaultValue={0} label="cushions" labelPosition="right" />
+                    <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("quantity", data) }} type="number" id="foam-amount" defaultValue={0} label="cushions" labelPosition="right" />
                 </div>
             </div>
         </>

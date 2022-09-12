@@ -2,12 +2,12 @@ import React from "react";
 import { Button, Icon } from "semantic-ui-react";
 import "./AddClearButtonsParent.css";
 
-function AddClearButtonsParent(): JSX.Element {
+function AddClearButtonsParent(props: { onAdd: Function }): JSX.Element {
     return(
         <>
             <div className="add-clear-buttons-parent-container">
                 <div className="add-button-container add-clear-buttons-subcontainer">
-                    <Button color="blue" className="add-button" icon labelPosition="right">
+                    <Button color="blue" className="add-button" icon labelPosition="right" onClick={() => {props.onAdd()}}>
                         Add
                         <Icon name="plus" />
                     </Button>

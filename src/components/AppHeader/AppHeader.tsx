@@ -8,12 +8,12 @@ function AppHeader(): JSX.Element {
             <div className="header-logo-container">
                 <img src="logo.png" />
                 <p>Foam and Upholstery Calculator</p>
-                <div className="header-creator-label-container">
+                {/* <div className="header-creator-label-container">
                     <Label color="blue" size="small">
                         <Icon name="cog" />
                         Created by Jamie Rossiter
                     </Label>
-                </div>
+                </div> */}
             </div>
         </>
     )

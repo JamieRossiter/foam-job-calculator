@@ -9,11 +9,7 @@
     text-align: center;
 }
 
-.upholstery-card-width-container .ui.input {
-    width: 9em;
-}
-
-.upholstery-card-width-container label {
+.upholstery-card-fabric-container label {
     display: block;
 }
 

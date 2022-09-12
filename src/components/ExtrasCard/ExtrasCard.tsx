@@ -16,7 +16,7 @@ function ExtrasCard() : JSX.Element {
                 </div>
                 <div className="poly-container extras-card-subcontainer">
                     <label htmlFor="poly-checkbox">Polyester fibre required</label>
-                    <Checkbox defaultChecked id="poly-checkbox" toggle />
+                    <Checkbox defaultChecked id="poly-checkbox" toggle onChange={() => {setPolyRequired(!polyRequired)}} />
                 </div>
                 <div className="layers-container extras-card-subcontainer">
                     <label htmlFor="layer-input">How many layers?</label>

@@ -31,12 +31,12 @@ export const measurementSystemList: Array<DropdownItem> = [
     {
         key: "mm",
         text: "mm",
-        value: "millimetres"
+        value: "mm"
     },
     {
         key: "in",
         text: "in",
-        value: "inches"
+        value: "in"
     }
 ]
 
