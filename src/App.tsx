@@ -6,29 +6,40 @@ import AddClearButtonsParent from "./components/AddClearButtonsParent/AddClearBu
 import TotalsWindow from "./components/TotalsWindow/TotalsWindow";
 import AppHeader from "./components/AppHeader/AppHeader";
 import "./App.css";
-import { FabricDatum, UserFoamData, UserExtrasData, UserUpholsteryData, UserItemObject } from "./utils/types";
-
+import { FabricDatum, UserFoamData, UserExtrasData, UserUpholsteryData, UserItemObject, FoamPriceDatum } from "./utils/types";
+import { calculateExtras, calculateFoam, calculateUpholstery } from "./utils/calculate";
+ 
 function App(): JSX.Element {
 
     const [ totalUserItems, setTotalUserItems ] = React.useState<Array<UserItemObject>>([]);
 
     const [ userFoamData, setUserFoamData ] = React.useState<UserFoamData>({density: "", thickness: "", length: 0, width: 0, quantity: 0, measurementSystem: "mm"});
-    const [ userExtrasData, setUserExtrasData ] = React.useState<UserExtrasData>();
-    const [ userUpholsteryData, setUserUpholsteryData ] = React.useState<UserUpholsteryData>();
+    const [ userExtrasData, setUserExtrasData ] = React.useState<UserExtrasData>({polyRequired: true, layers: 0, glueRequired: true, polyAreasToCover: { top: true, sides: true, bottom: true }});
+    const [ userUpholsteryData, setUserUpholsteryData ] = React.useState<UserUpholsteryData>({upholsteryRequired: true, fabric: { name: "", width: "", price: "", sku: "" }, labourRequired: true});
 
     const [ fabricsData, setFabricsData] = React.useState<Array<FabricDatum>>([]);
+    const [ foamPricesData, setFoamPricesData ] = React.useState<Array<FoamPriceDatum>>([]);
 
     // Fetch fabrics from CSV file
     React.useEffect(() => {
         fetch("fabrics_list.csv")
         .then((response: any) => response.text())
         .then((data: any) => {
-            setFabricsData(createFabricsData(formatFabricsData(data)));
+            setFabricsData(createFabricsData(convertCSVData(data)));
         });
     }, [])
 
+    // Fetch foam prices from CSV file
+    React.useEffect(() => {
+        fetch("foam_prices.csv")
+        .then((response: any) => response.text())
+        .then((data: any) => {
+            setFoamPricesData(createFoamPricesData(convertCSVData(data)));
+        });
+    })
+
     // Format CSV data as an Array of string arrays
-    function formatFabricsData(csvStream: string): Array<Array<string>>{
+    function convertCSVData(csvStream: string): Array<Array<string>>{
         const splitData: Array<string> = csvStream.split("\n");
         return splitData.map((splitDatum: string, index: number) => { 
             let datum: Array<string>;
@@ -49,9 +60,20 @@ function App(): JSX.Element {
         })
     }
 
+    function createFoamPricesData(csvArray: Array<Array<string>>): Array<FoamPriceDatum>{
+        return csvArray.map((foamPriceDatum: Array<string>, index: number) => {
+            if(index != 0) return { density: foamPriceDatum[0], name: foamPriceDatum[1], thickness: parseInt(foamPriceDatum[2]), price: parseFloat(foamPriceDatum[3]), sku: foamPriceDatum[4] };
+            else return { density: "", name: "", thickness: 0, price: 0.0, sku: "" }
+        })
+    }
+
     // Handle "add" button press
     function handleAddUserData(): void {
-        // Gather data from children
+        setTotalUserItems([...totalUserItems, { 
+            foam: calculateFoam(userFoamData, foamPricesData),
+            extras: calculateExtras(userFoamData, userExtrasData),
+            upholstery: calculateUpholstery(userFoamData, userUpholsteryData)
+        }])
     }
 
     return(
@@ -63,16 +85,24 @@ function App(): JSX.Element {
                 <div>
                     <div className="app-foam-container">
                         <FoamCard 
-                            handleChange={(key: string, value: string) => { setUserFoamData( (userFoamData) => { return({...userFoamData, [key]: value })})}}
                             currentMeasurementSystem={userFoamData.measurementSystem}
+                            handleChange={(key: string, value: string) => { setUserFoamData( (userFoamData) => { return({...userFoamData, [key]: value })})}}
                         />
                     </div>
                     <div className="app-extras-upholstery-container">
                         <div>
-                            <ExtrasCard />
+                            <ExtrasCard 
+                                polyRequired={userExtrasData.polyRequired} 
+                                polySides={userExtrasData.polyAreasToCover} 
+                                handleChange={(key: string, value: string) => { setUserExtrasData( (userExtrasData) => { return({...userExtrasData, [key]: value })})}} 
+                            />
                         </div>
                         <div>
-                            <UpholsteryCard fabricsList={fabricsData} />
+                            <UpholsteryCard 
+                                fabricsList={fabricsData} 
+                                upholsteryRequired={userUpholsteryData.upholsteryRequired}
+                                handleChange={(key: string, value: string) => { setUserUpholsteryData( (userUpholsteryData) => { return({...userUpholsteryData, [key]: value })})}} 
+                            />
                             <AddClearButtonsParent onAdd={handleAddUserData} />
                         </div>
                     </div>

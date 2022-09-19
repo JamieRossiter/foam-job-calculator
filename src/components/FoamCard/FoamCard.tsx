@@ -12,7 +12,7 @@ type FoamCardProps = {
 function FoamCard(props: FoamCardProps) : JSX.Element {
 
     function handleChange(key: string, outgoing: any): void {
-        props.handleChange(key, outgoing.value);
+        props.handleChange(key, outgoing);
     }
 
     return(
@@ -23,28 +23,27 @@ function FoamCard(props: FoamCardProps) : JSX.Element {
                     <div className="foam-left-container">
                         <div className="foam-density-container foam-card-sub-container">
                             <label htmlFor="densities-select" id="densities-select-label">Foam Density</label>
-                            <Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("density", data) }} fluid name="densities-select" id="densities-select" placeholder="Select density..." options={densityList} selection />
+                            <Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("density", data.value) }} fluid name="densities-select" id="densities-select" placeholder="Select density..." options={densityList} selection />
                         </div>
                         <div className="foam-length-container foam-card-sub-container">
                             <label htmlFor="dimensions-length">Length</label>
-                            <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("length", data) }} className="length-input" type="number" id="dimensions-length" labelPosition="right" placeholder="e.g. 500" label={<Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("measurementSystem", data) }} options={measurementSystemList} defaultValue="mm" value={props.currentMeasurementSystem} />} />
+                            <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("length", data.value) }} className="length-input" type="number" id="dimensions-length" labelPosition="right" placeholder="e.g. 500" label={<Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("measurementSystem", data.value) }} options={measurementSystemList} defaultValue="mm" value={props.currentMeasurementSystem} />} />
                         </div>
                     </div>
                     <div className="foam-right-container">
                         <div className="foam-thickness-container foam-card-sub-container">
                             <label htmlFor="thicknesses-select">Foam Thickness</label>
-                            <Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("thickness", data) }} fluid name="thicknesses-select" id="thicknesses-select" placeholder="Select thickness..." options={thicknessList} selection />
-                            {/* <Label>36-130</Label> */}
+                            <Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("thickness", data.value) }} fluid name="thicknesses-select" id="thicknesses-select" placeholder="Select thickness..." options={thicknessList} selection />
                         </div>
                         <div className="foam-width-container foam-card-sub-container">
                             <label htmlFor="dimensions-width">Width</label>
-                            <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("width", data) }} className="width-input" type="number" id="dimensions-width" labelPosition="right" placeholder="e.g. 300" label={<Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("measurementSystem", data) }} options={measurementSystemList} defaultValue="mm" value={props.currentMeasurementSystem} />} />
+                            <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("width", data.value) }} className="width-input" type="number" id="dimensions-width" labelPosition="right" placeholder="e.g. 300" label={<Dropdown onChange={(e: any, data: DropdownProps) => { handleChange("measurementSystem", data.value) }} options={measurementSystemList} defaultValue="mm" value={props.currentMeasurementSystem} />} />
                         </div>
                     </div>
                 </div>
                 <div className="foam-amount-container foam-card-sub-container">
                     <label htmlFor="foam-amount">Quantity</label>
-                    <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("quantity", data) }} type="number" id="foam-amount" defaultValue={0} label="cushions" labelPosition="right" />
+                    <Input onChange={(e: any, data: InputOnChangeData) => { handleChange("quantity", data.value) }} type="number" id="foam-amount" defaultValue={0} label="cushions" labelPosition="right" />
                 </div>
             </div>
         </>

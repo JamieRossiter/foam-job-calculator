@@ -21,6 +21,10 @@
     display: block;
 }
 
-.foam-density-container .ui.avatar.image {
-    border: 1px solid grey;
+.foam-density-container img {
+    border: 1px solid black;
+    border-radius: 1em;
+    width: 1.3em !important;
+    position: relative;
+    top: 0.35em;
 }
