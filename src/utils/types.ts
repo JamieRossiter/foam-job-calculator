@@ -60,7 +60,7 @@ export type CalculatedFoamData = {
 
 export type CalculatedExtrasData = {
     polyLength: string,
-    polyPrice: string,
+    polyTotalPrice: string,
     labourPrice: string
 }
 

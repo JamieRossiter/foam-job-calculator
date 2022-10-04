@@ -60,6 +60,7 @@ function App(): JSX.Element {
         })
     }
 
+    // Create an array containing foam price data
     function createFoamPricesData(csvArray: Array<Array<string>>): Array<FoamPriceDatum>{
         return csvArray.map((foamPriceDatum: Array<string>, index: number) => {
             if(index != 0) return { density: foamPriceDatum[0], name: foamPriceDatum[1], thickness: parseInt(foamPriceDatum[2]), price: parseFloat(foamPriceDatum[3]), sku: foamPriceDatum[4] };
@@ -108,7 +109,7 @@ function App(): JSX.Element {
                     </div>
                 </div>
                 <div className="app-totals-container">
-                    <TotalsWindow />    
+                    <TotalsWindow items={totalUserItems} />    
                 </div>
             </div>
         </>

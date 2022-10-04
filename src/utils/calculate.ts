@@ -77,7 +77,7 @@ export function calculateExtras(foamData: UserFoamData, extrasData: UserExtrasDa
     let labourPrice: number = 0;
     if(extrasData.glueRequired) Number(foamData.length) > 1000 ? labourPrice += (20 * foamData.quantity) : labourPrice += (10 * foamData.quantity); 
 
-    return { polyPrice: finalPrice.toFixed(2), polyLength: totalPolyLength.toFixed(2), labourPrice: labourPrice.toFixed(2) }
+    return { polyTotalPrice: finalPrice.toFixed(2), polyLength: totalPolyLength.toFixed(2), labourPrice: labourPrice.toFixed(2) }
 }
 
 export function calculateUpholstery(foamData: UserFoamData, upholsteryData: UserUpholsteryData): CalculatedUpholsteryData {
