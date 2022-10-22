@@ -70,5 +70,6 @@ export type CalculatedUpholsteryData = {
     fabricLength: string,
     fabricPmPrice: string,
     fabricPrice: string,
-    estimatedLabour: string
+    estimatedLabour: string,
+    sku: string
 }

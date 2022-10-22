@@ -29,7 +29,7 @@ export function calculateFoam(data: UserFoamData, foamPrices: Array<FoamPriceDat
     const totalPrice: string = finalPrice.toFixed(2);
     const eachPrice: string =  (units * unitPrice).toFixed(2);
 
-    const dimensions: string = `${Number(data.length).toFixed(2)} x ${Number(data.width).toFixed(2)} x ${finalThickness}`;
+    const dimensions: string = `${Number(data.length)} x ${Number(data.width)} x ${finalThickness}`;
     const sku: string = `SKU: ${targetFoam?.sku}`;
 
     return { 
@@ -67,10 +67,10 @@ export function calculateExtras(foamData: UserFoamData, extrasData: UserExtrasDa
 
     finalPrice =  (totalPolyLength / 1000) * POLY_COST;
 
-    console.log("Extras is all covered", isAllCovered);
-    console.log("Extras is top or bottom only", isTopOrBottomCoveredOnly);
-    console.log("Min poly width", minPolyWidth);
-    console.log("Total poly length", totalPolyLength / 1000);
+    // console.log("Extras is all covered", isAllCovered);
+    // console.log("Extras is top or bottom only", isTopOrBottomCoveredOnly);
+    // console.log("Min poly width", minPolyWidth);
+    // console.log("Total poly length", totalPolyLength / 1000);
 
     if(extrasData.layers > 1) finalPrice = finalPrice * extrasData.layers
 
@@ -121,7 +121,8 @@ export function calculateUpholstery(foamData: UserFoamData, upholsteryData: User
         fabricLength: requiredFabricLength.toFixed(2),
         fabricPmPrice: upholsteryData.fabric.price,
         fabricPrice: fabricCost.toFixed(2),
-        estimatedLabour: estimatedLabourCost.toFixed(2) 
+        estimatedLabour: estimatedLabourCost.toFixed(2),
+        sku: upholsteryData.fabric.sku
     };
 
 }

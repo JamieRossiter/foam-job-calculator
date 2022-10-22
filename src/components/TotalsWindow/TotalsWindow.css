@@ -1,0 +1,19 @@
+.totals-window-items-container {
+    height: 48.3vh;
+    min-width: 38vw;
+    overflow-y: auto;
+    padding-right: 2em;
+}
+
+.totals-window-items-container hr {
+    border-color: #ECECEC; 
+    border-style: dashed;
+    margin-top: 1em;
+}
+
+.totals-window-foam-items-container > div:nth-child(even), 
+.totals-window-extras-items-container > div:nth-child(even),
+.totals-window-upholstery-items-container > div:nth-child(even) {
+    background-color: #F5F5F5;
+}
+
