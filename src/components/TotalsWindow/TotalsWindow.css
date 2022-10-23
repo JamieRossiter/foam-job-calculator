@@ -1,8 +1,10 @@
 .totals-window-items-container {
-    height: 48.3vh;
-    min-width: 38vw;
+    height: 37vh;
+    min-width: 40vw;
     overflow-y: auto;
     padding-right: 2em;
+    border: 2.5px lightgrey solid;
+    border-radius: 1em;
 }
 
 .totals-window-items-container hr {
@@ -17,3 +19,10 @@
     background-color: #F5F5F5;
 }
 
+.totals-window-placeholder {
+    position: relative;
+    font-size: 1.5em;
+    color: #BEBEBE;
+    text-align: center;
+    top: 7em;
+}

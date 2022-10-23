@@ -21,6 +21,7 @@ export type FoamPriceDatum = {
 }
 
 export type UserItemObject = {
+    id: string,
     foam: CalculatedFoamData,
     extras: CalculatedExtrasData,
     upholstery: CalculatedUpholsteryData
@@ -53,23 +54,29 @@ export type CalculatedFoamData = {
     quantity: number, 
     sku: string, 
     dimensions: string,
-    totalPrice: string,
-    eachPrice: string,
-    units: string
+    totalPrice: number,
+    eachPrice: number,
+    units: number
 }
 
 export type CalculatedExtrasData = {
-    polyLength: string,
-    polyTotalPrice: string,
-    labourPrice: string
+    polyLength: number,
+    polyTotalPrice: number,
+    labourPrice: number
 }
 
 export type CalculatedUpholsteryData = {
     fabricName: string,
-    fabricEachLength: string
-    fabricLength: string,
-    fabricPmPrice: string,
-    fabricPrice: string,
-    estimatedLabour: string,
+    fabricEachLength: number
+    fabricLength: number,
+    fabricPmPrice: number,
+    fabricPrice: number,
+    estimatedLabour: number,
     sku: string
+}
+
+export type CostTotals = {
+    foamTotal: number, 
+    extrasTotal: number, 
+    upholsteryTotal: number 
 }

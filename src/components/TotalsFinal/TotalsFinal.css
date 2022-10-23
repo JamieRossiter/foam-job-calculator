@@ -1,3 +1,7 @@
+.totals-final-divider {
+    margin-top: 1em;
+}
+
 .totals-final-parent-container {
     display: flex;
 }

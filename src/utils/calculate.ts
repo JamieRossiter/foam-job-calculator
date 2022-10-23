@@ -24,20 +24,20 @@ export function calculateFoam(data: UserFoamData, foamPrices: Array<FoamPriceDat
 
     // Determine other info
     const finalThickness: string = `${data.measurementSystem === "mm" ? data.thickness : (parseInt(data.thickness) / 25.4).toFixed(2)}${data.measurementSystem}`;
-    const foamName: string = `${targetFoam?.name} - ${finalThickness} (${data.thickness}mm)`;
+    const foamName: string = `${targetFoam?.name} - ${finalThickness} ${data.measurementSystem != "mm" ? `(${data.thickness}mm)` : ""}`;
 
-    const totalPrice: string = finalPrice.toFixed(2);
-    const eachPrice: string =  (units * unitPrice).toFixed(2);
+    const totalPrice: number = parseFloat(finalPrice.toFixed(2));
+    const eachPrice: number =  parseFloat((units * unitPrice).toFixed(2));
 
     const dimensions: string = `${Number(data.length)} x ${Number(data.width)} x ${finalThickness}`;
-    const sku: string = `SKU: ${targetFoam?.sku}`;
+    const sku: string = `${targetFoam?.sku}`;
 
     return { 
         name: foamName,
         quantity: data.quantity, 
         totalPrice: totalPrice, 
         eachPrice: eachPrice, 
-        units: `${(units * data.quantity).toFixed(2)} units`, 
+        units: units * parseInt(Number(data.quantity).toFixed(2)), 
         dimensions: dimensions, 
         sku: sku
     }
@@ -77,7 +77,11 @@ export function calculateExtras(foamData: UserFoamData, extrasData: UserExtrasDa
     let labourPrice: number = 0;
     if(extrasData.glueRequired) Number(foamData.length) > 1000 ? labourPrice += (20 * foamData.quantity) : labourPrice += (10 * foamData.quantity); 
 
-    return { polyTotalPrice: finalPrice.toFixed(2), polyLength: totalPolyLength.toFixed(2), labourPrice: labourPrice.toFixed(2) }
+    return { 
+        polyTotalPrice: parseFloat(finalPrice.toFixed(2)), 
+        polyLength: parseFloat(totalPolyLength.toFixed(2)), 
+        labourPrice: parseFloat(labourPrice.toFixed(2)) 
+    }
 }
 
 export function calculateUpholstery(foamData: UserFoamData, upholsteryData: UserUpholsteryData): CalculatedUpholsteryData {
@@ -117,11 +121,11 @@ export function calculateUpholstery(foamData: UserFoamData, upholsteryData: User
     
     return { 
         fabricName: fabricName, 
-        fabricEachLength: (requiredFabricLength / foamData.quantity).toFixed(2), 
-        fabricLength: requiredFabricLength.toFixed(2),
-        fabricPmPrice: upholsteryData.fabric.price,
-        fabricPrice: fabricCost.toFixed(2),
-        estimatedLabour: estimatedLabourCost.toFixed(2),
+        fabricEachLength: parseFloat((requiredFabricLength / foamData.quantity).toFixed(2)), 
+        fabricLength: parseFloat(requiredFabricLength.toFixed(2)),
+        fabricPmPrice: parseFloat(upholsteryData.fabric.price),
+        fabricPrice: parseFloat(fabricCost.toFixed(2)),
+        estimatedLabour: parseFloat(estimatedLabourCost.toFixed(2)),
         sku: upholsteryData.fabric.sku
     };
 

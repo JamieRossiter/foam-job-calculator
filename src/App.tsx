@@ -8,6 +8,8 @@ import AppHeader from "./components/AppHeader/AppHeader";
 import "./App.css";
 import { FabricDatum, UserFoamData, UserExtrasData, UserUpholsteryData, UserItemObject, FoamPriceDatum } from "./utils/types";
 import { calculateExtras, calculateFoam, calculateUpholstery } from "./utils/calculate";
+import { Button, Modal } from "semantic-ui-react";
+import { v4 as uuidv4} from "uuid";
  
 function App(): JSX.Element {
 
@@ -19,6 +21,8 @@ function App(): JSX.Element {
 
     const [ fabricsData, setFabricsData] = React.useState<Array<FabricDatum>>([]);
     const [ foamPricesData, setFoamPricesData ] = React.useState<Array<FoamPriceDatum>>([]);
+
+    const [confirmationModalOpen, setConfirmationModalOpen] = React.useState<boolean>(false);
 
     // Fetch fabrics from CSV file
     React.useEffect(() => {
@@ -71,14 +75,37 @@ function App(): JSX.Element {
     // Handle "add" button press
     function handleAddUserData(): void {
         setTotalUserItems([...totalUserItems, { 
+            id: uuidv4(),
             foam: calculateFoam(userFoamData, foamPricesData),
             extras: calculateExtras(userFoamData, userExtrasData),
             upholstery: calculateUpholstery(userFoamData, userUpholsteryData)
         }])
     }
+    
+    // Handle "clear all" button press
+    function handleClearAll(): void {
+        setConfirmationModalOpen(true);
+    }
+
+    // Handle item "delete" button press
+    function handleDeleteItem(deletedId: string): void {
+        const filteredUserItems: Array<UserItemObject> = totalUserItems.filter((item: UserItemObject) => item.id !== deletedId);
+        setTotalUserItems(filteredUserItems);
+    }
 
     return(
         <>
+            <Modal size="mini" onClose={() => setConfirmationModalOpen(false)} open={confirmationModalOpen} >
+                <Modal.Header>Are you sure you want to clear this quotation?</Modal.Header>
+                <Modal.Actions>
+                    <Button negative onClick={() => { 
+                        setTotalUserItems([]);
+                        setConfirmationModalOpen(false);
+                    }}>Yes, clear all</Button>
+                    <Button onClick={() => { setConfirmationModalOpen(false) }} basic>No, go back</Button>
+                </Modal.Actions>
+            </Modal>
+
             <div className="app-header-container">
                 <AppHeader />
             </div>
@@ -109,7 +136,7 @@ function App(): JSX.Element {
                     </div>
                 </div>
                 <div className="app-totals-container">
-                    <TotalsWindow items={totalUserItems} />    
+                    <TotalsWindow items={totalUserItems} onDeleteItem={(id: string) => { handleDeleteItem(id) }} onClearAll={handleClearAll} />    
                 </div>
             </div>
         </>

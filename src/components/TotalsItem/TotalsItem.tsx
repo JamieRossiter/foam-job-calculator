@@ -1,19 +1,29 @@
 import React from "react";
 import "./TotalsItem.css";
-import { Button, Label } from "semantic-ui-react";
+import { Button, Icon, Label, Popup } from "semantic-ui-react";
 
 type TotalsItemProps = {
+    id?: string,
     name: string,
     image?: string,
     measurements: string,
     quantity: number,
     totalPrice: string,
-    eachPrice: string,
-    sku: string
+    eachPrice?: string,
+    sku: string,
+    onDelete?: Function | undefined,
+    isDeletable: boolean
 }
 
 function TotalsItem(props: TotalsItemProps): JSX.Element {
 
+    function handleDelete(): void {
+        if(!props.isDeletable){
+            return;
+        }
+        if(props.onDelete) props.onDelete(props.id);
+    }
+    
     return(
         <>
             <div className="totals-item-parent-container">
@@ -28,13 +38,27 @@ function TotalsItem(props: TotalsItemProps): JSX.Element {
                     <Label className="totals-item-quantity">x{props.quantity}</Label>
                 </div>
                 <div className="totals-item-price-container">
-                    <p className="totals-item-price">${props.totalPrice} <span className="totals-item-price-each">(${props.eachPrice} ea)</span></p>
+                    <p className="totals-item-price">${props.totalPrice} <span hidden={!props.eachPrice} className="totals-item-price-each">(${props.eachPrice} ea)</span></p>
                 </div>
                 <div className="totals-item-sku-container">
                     <p className="totals-item-sku">{props.sku}</p>
                 </div>
                 <div className="totals-item-button-container">
-                    <Button icon="trash" circular basic color="red" />
+                    <Popup 
+                        on="click"
+                        header={<Icon name="warning sign"/>}
+                        content="This item cannot be deleted from the quotation."
+                        disabled={props.isDeletable} 
+                        trigger={
+                            <Button 
+                                onClick={() => { handleDelete() }} 
+                                icon="trash" 
+                                circular 
+                                basic 
+                                color={props.isDeletable ? "red" : "grey"}
+                            />
+                        }
+                    />
                 </div>
             </div>
         </>
