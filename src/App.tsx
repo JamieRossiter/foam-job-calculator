@@ -9,20 +9,25 @@ import "./App.css";
 import { FabricDatum, UserFoamData, UserExtrasData, UserUpholsteryData, UserItemObject, FoamPriceDatum } from "./utils/types";
 import { calculateExtras, calculateFoam, calculateUpholstery } from "./utils/calculate";
 import { Button, Modal } from "semantic-ui-react";
+import { foamDefaultState, extrasDefaultState, upholsteryDefaultState } from "./utils/default_states";
 import { v4 as uuidv4} from "uuid";
  
 function App(): JSX.Element {
 
     const [ totalUserItems, setTotalUserItems ] = React.useState<Array<UserItemObject>>([]);
 
-    const [ userFoamData, setUserFoamData ] = React.useState<UserFoamData>({density: "", thickness: "", length: 0, width: 0, quantity: 0, measurementSystem: "mm"});
-    const [ userExtrasData, setUserExtrasData ] = React.useState<UserExtrasData>({polyRequired: true, layers: 0, glueRequired: true, polyAreasToCover: { top: true, sides: true, bottom: true }});
-    const [ userUpholsteryData, setUserUpholsteryData ] = React.useState<UserUpholsteryData>({upholsteryRequired: true, fabric: { name: "", width: "", price: "", sku: "" }, labourRequired: true});
+    const [ userFoamData, setUserFoamData ] = React.useState<UserFoamData>(foamDefaultState);
+    const [ userExtrasData, setUserExtrasData ] = React.useState<UserExtrasData>(extrasDefaultState);
+    const [ userUpholsteryData, setUserUpholsteryData ] = React.useState<UserUpholsteryData>(upholsteryDefaultState);
 
     const [ fabricsData, setFabricsData] = React.useState<Array<FabricDatum>>([]);
     const [ foamPricesData, setFoamPricesData ] = React.useState<Array<FoamPriceDatum>>([]);
 
-    const [confirmationModalOpen, setConfirmationModalOpen] = React.useState<boolean>(false);
+    const [ clearQuotationModalOpen, setClearQuotationModalOpen] = React.useState<boolean>(false);
+    const [ clearInputsModalOpen, setClearInputsModalOpen ] = React.useState<boolean>(false);
+
+    const [ validationErrorMessages, setValidationErrorMessages ] = React.useState<Array<string>>([]);
+    const [ validationErrorModalOpen, setValidationErrorModalOpen ] = React.useState<boolean>(false);
 
     // Fetch fabrics from CSV file
     React.useEffect(() => {
@@ -40,7 +45,7 @@ function App(): JSX.Element {
         .then((data: any) => {
             setFoamPricesData(createFoamPricesData(convertCSVData(data)));
         });
-    })
+    }, [])
 
     // Format CSV data as an Array of string arrays
     function convertCSVData(csvStream: string): Array<Array<string>>{
@@ -74,17 +79,35 @@ function App(): JSX.Element {
 
     // Handle "add" button press
     function handleAddUserData(): void {
+        
+        if(!isValid()){
+            setValidationErrorModalOpen(true);
+            return;
+        }
+
         setTotalUserItems([...totalUserItems, { 
             id: uuidv4(),
             foam: calculateFoam(userFoamData, foamPricesData),
             extras: calculateExtras(userFoamData, userExtrasData),
             upholstery: calculateUpholstery(userFoamData, userUpholsteryData)
         }])
+
+    }
+
+    // Handle "clear" button press
+    function handleClearUserData(): void {
+        setClearInputsModalOpen(true);
+    }
+
+    function clearUserData(): void {
+        setUserFoamData(foamDefaultState);
+        setUserExtrasData(extrasDefaultState);
+        setUserUpholsteryData(upholsteryDefaultState);
     }
     
     // Handle "clear all" button press
     function handleClearAll(): void {
-        setConfirmationModalOpen(true);
+        setClearQuotationModalOpen(true);
     }
 
     // Handle item "delete" button press
@@ -93,16 +116,116 @@ function App(): JSX.Element {
         setTotalUserItems(filteredUserItems);
     }
 
+    // Validate all inputs 
+    function isValid(): boolean {
+
+        let errorMsgs: Array<string> = [];
+        
+        const invalidFoamInputs: Array<string> = isFoamValid(userFoamData);
+        const invalidExtrasInputs: Array<string> = isExtrasValid(userExtrasData);
+        const invalidUpholsteryInputs: Array<string> = isUpholsteryValid(userUpholsteryData);
+
+        // Check if all inputs are valid
+        if(invalidFoamInputs.length <= 0 && invalidExtrasInputs.length <= 0 && invalidUpholsteryInputs.length <= 0) return true;
+        
+        // Check if foam inputs are valid
+        if(invalidFoamInputs.length > 0){
+            invalidFoamInputs.forEach((input: string) => {
+                errorMsgs.push(`Please enter a valid foam ${input}.`);
+            })
+        }
+
+        // Check if extras inputs are valid
+        if(invalidExtrasInputs.length > 0){
+            invalidExtrasInputs.forEach((input: string) => {
+                errorMsgs.push(`Please enter a valid polyester fibre ${input}.`)
+            })
+        }
+
+        // Check if upholstery inputs are valid
+        if(invalidUpholsteryInputs.length > 0){
+            invalidUpholsteryInputs.forEach((input: string) => {
+                errorMsgs.push(`Please enter a valid upholstery ${input}.`);
+            })
+        }
+
+        setValidationErrorMessages(errorMsgs);
+        return false;
+
+    }
+
+    function isFoamValid(foam: UserFoamData): Array<string> {
+
+        const invalidInputs: Array<string> = [];
+        
+        if(foam.density.length <= 0) invalidInputs.push("density");
+        if(foam.thickness.length <= 0) invalidInputs.push("thickness")
+        if(foam.length <= 0) invalidInputs.push("length");
+        if(foam.width <= 0) invalidInputs.push("width");
+        if(foam.quantity <= 0) invalidInputs.push("quantity");
+
+        return invalidInputs;
+
+    }
+
+    function isExtrasValid(extras: UserExtrasData): Array<string> {
+
+        const invalidInputs: Array<string> = [];
+
+        if(!extras.polyRequired) return invalidInputs;
+        if(extras.layers <= 0) invalidInputs.push("layer value");
+        if(!(extras.polyAreasToCover.top && extras.polyAreasToCover.sides && extras.polyAreasToCover.bottom)) invalidInputs.push("area to cover");
+
+        return invalidInputs;
+
+    }
+
+    function isUpholsteryValid(upholstery: UserUpholsteryData): Array<string> {
+
+        const invalidInputs: Array<string> = [];
+
+        if(!upholstery.upholsteryRequired) return invalidInputs;
+        if(upholstery.fabric.sku.length <= 0) invalidInputs.push("fabric");
+
+        return invalidInputs;
+
+    }
+
     return(
         <>
-            <Modal size="mini" onClose={() => setConfirmationModalOpen(false)} open={confirmationModalOpen} >
+            <Modal size="mini" onClose={() => setClearQuotationModalOpen(false)} open={clearQuotationModalOpen} >
                 <Modal.Header>Are you sure you want to clear this quotation?</Modal.Header>
+                <Modal.Content>This action will clear ALL lines in the current quotation.</Modal.Content>
                 <Modal.Actions>
                     <Button negative onClick={() => { 
                         setTotalUserItems([]);
-                        setConfirmationModalOpen(false);
+                        setClearQuotationModalOpen(false);
                     }}>Yes, clear all</Button>
-                    <Button onClick={() => { setConfirmationModalOpen(false) }} basic>No, go back</Button>
+                    <Button onClick={() => { setClearQuotationModalOpen(false) }} basic>No, go back</Button>
+                </Modal.Actions>
+            </Modal>
+
+            <Modal size="mini" onClose={() => setClearInputsModalOpen(true)} open={clearInputsModalOpen} >
+                <Modal.Header>Are you sure you want to clear the data you've inputted?</Modal.Header>
+                <Modal.Content>This action will NOT clear the current quotation.</Modal.Content>
+                <Modal.Actions>
+                    <Button negative onClick={() => { 
+                        clearUserData();
+                        setClearInputsModalOpen(false);
+                    }}>Yes, clear input data</Button>
+                    <Button onClick={() => { setClearInputsModalOpen(false) }} basic>No, go back</Button>
+                </Modal.Actions>
+            </Modal>
+
+            <Modal size="mini" onClose={() => setValidationErrorModalOpen(false)} open={validationErrorModalOpen}>
+                <Modal.Header>There was a problem calculating your quotation!</Modal.Header>
+                <Modal.Content>
+                    <ul>
+                        {validationErrorMessages.map((message: string) => <li>{message}</li>)}
+                    </ul>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button onClick={() => {setValidationErrorModalOpen(false)}} positive>Okay</Button>
                 </Modal.Actions>
             </Modal>
 
@@ -115,6 +238,7 @@ function App(): JSX.Element {
                         <FoamCard 
                             currentMeasurementSystem={userFoamData.measurementSystem}
                             handleChange={(key: string, value: string) => { setUserFoamData( (userFoamData) => { return({...userFoamData, [key]: value })})}}
+                            data={userFoamData}
                         />
                     </div>
                     <div className="app-extras-upholstery-container">
@@ -123,6 +247,7 @@ function App(): JSX.Element {
                                 polyRequired={userExtrasData.polyRequired} 
                                 polySides={userExtrasData.polyAreasToCover} 
                                 handleChange={(key: string, value: string) => { setUserExtrasData( (userExtrasData) => { return({...userExtrasData, [key]: value })})}} 
+                                data={userExtrasData}
                             />
                         </div>
                         <div>
@@ -130,8 +255,9 @@ function App(): JSX.Element {
                                 fabricsList={fabricsData} 
                                 upholsteryRequired={userUpholsteryData.upholsteryRequired}
                                 handleChange={(key: string, value: string) => { setUserUpholsteryData( (userUpholsteryData) => { return({...userUpholsteryData, [key]: value })})}} 
+                                data={userUpholsteryData}
                             />
-                            <AddClearButtonsParent onAdd={handleAddUserData} />
+                            <AddClearButtonsParent onAdd={handleAddUserData} onClear={handleClearUserData} />
                         </div>
                     </div>
                 </div>
