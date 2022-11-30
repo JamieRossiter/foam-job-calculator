@@ -130,3 +130,19 @@ export function calculateUpholstery(foamData: UserFoamData, upholsteryData: User
     };
 
 }
+
+export function generateBlankExtrasData(): CalculatedExtrasData {
+    return { polyLength: 0, polyTotalPrice: 0, labourPrice: 0 };
+}
+
+export function generateBlankUpholsteryData(): CalculatedUpholsteryData {
+    return { 
+        fabricName: "",
+        fabricEachLength: 0,
+        fabricLength: 0,
+        fabricPmPrice: 0,
+        fabricPrice: 0,
+        estimatedLabour: 0,
+        sku: ""
+     }
+}

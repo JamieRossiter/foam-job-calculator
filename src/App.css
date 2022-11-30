@@ -1,11 +1,21 @@
+.app-container {
+    margin-top: 5em;
+}
+
 .app-parent-container {
     display: flex;
+    justify-content: center;
 }
 
 .app-extras-upholstery-container {
     display: flex;
+    justify-content: space-evenly;
 }
 
 .app-totals-container {
     margin-top: 1em;
+}
+
+.app-disclaimer-emphasis {
+    font-weight: bold;
 }

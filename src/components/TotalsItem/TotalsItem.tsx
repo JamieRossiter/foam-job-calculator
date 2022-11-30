@@ -1,11 +1,11 @@
 import React from "react";
 import "./TotalsItem.css";
-import { Button, Icon, Label, Popup } from "semantic-ui-react";
+import { Button, Icon, Label, Popup, SemanticICONS } from "semantic-ui-react";
 
 type TotalsItemProps = {
     id?: string,
     name: string,
-    image?: string,
+    image?: SemanticICONS,
     measurements: string,
     quantity: number,
     totalPrice: string,
@@ -28,7 +28,7 @@ function TotalsItem(props: TotalsItemProps): JSX.Element {
         <>
             <div className="totals-item-parent-container">
                 <div className="totals-item-image-container">
-                    <img src={props.image ?? "placeholder.jpeg"} />
+                    <Icon name={props.image ?? "square outline"} size="big" />
                 </div>
                 <div className="totals-item-info-container">
                     <p className="totals-item-name">{props.name}</p>

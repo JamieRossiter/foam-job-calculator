@@ -2,9 +2,9 @@
     height: 37vh;
     min-width: 40vw;
     overflow-y: auto;
-    padding-right: 2em;
     border: 2.5px lightgrey solid;
     border-radius: 1em;
+    padding-top: 1em;
 }
 
 .totals-window-items-container hr {

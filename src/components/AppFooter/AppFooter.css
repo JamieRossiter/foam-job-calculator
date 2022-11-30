@@ -1,0 +1,14 @@
+.footer-parent-container {
+    text-align: center;
+    color: lightgrey;
+    margin-top: 3em;
+}
+
+.footer-parent-container p {
+    display: inline;
+}
+
+.footer-parent-container a {
+    font-weight: bold;
+    color: lightgrey;
+}

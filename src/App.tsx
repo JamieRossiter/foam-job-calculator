@@ -5,9 +5,10 @@ import UpholsteryCard from "./components/UpholsteryCard/UpholsteryCard";
 import AddClearButtonsParent from "./components/AddClearButtonsParent/AddClearButtonsParent";
 import TotalsWindow from "./components/TotalsWindow/TotalsWindow";
 import AppHeader from "./components/AppHeader/AppHeader";
+import AppFooter from "./components/AppFooter/AppFooter";
 import "./App.css";
 import { FabricDatum, UserFoamData, UserExtrasData, UserUpholsteryData, UserItemObject, FoamPriceDatum } from "./utils/types";
-import { calculateExtras, calculateFoam, calculateUpholstery } from "./utils/calculate";
+import { calculateExtras, calculateFoam, calculateUpholstery, generateBlankExtrasData, generateBlankUpholsteryData } from "./utils/calculate";
 import { Button, Modal } from "semantic-ui-react";
 import { foamDefaultState, extrasDefaultState, upholsteryDefaultState } from "./utils/default_states";
 import { v4 as uuidv4} from "uuid";
@@ -29,6 +30,13 @@ function App(): JSX.Element {
     const [ validationErrorMessages, setValidationErrorMessages ] = React.useState<Array<string>>([]);
     const [ validationErrorModalOpen, setValidationErrorModalOpen ] = React.useState<boolean>(false);
 
+    const [ disclaimerModalOpen, setDisclaimerModalOpen ] = React.useState<boolean>(false);
+
+    // Display disclaimer
+    React.useEffect(() => {
+        setDisclaimerModalOpen(true);
+    }, [])
+    
     // Fetch fabrics from CSV file
     React.useEffect(() => {
         fetch("fabrics_list.csv")
@@ -88,8 +96,8 @@ function App(): JSX.Element {
         setTotalUserItems([...totalUserItems, { 
             id: uuidv4(),
             foam: calculateFoam(userFoamData, foamPricesData),
-            extras: calculateExtras(userFoamData, userExtrasData),
-            upholstery: calculateUpholstery(userFoamData, userUpholsteryData)
+            extras: userExtrasData.polyRequired ? calculateExtras(userFoamData, userExtrasData) : generateBlankExtrasData(),
+            upholstery: userUpholsteryData.upholsteryRequired ? calculateUpholstery(userFoamData, userUpholsteryData) : generateBlankUpholsteryData()
         }])
 
     }
@@ -174,7 +182,7 @@ function App(): JSX.Element {
 
         if(!extras.polyRequired) return invalidInputs;
         if(extras.layers <= 0) invalidInputs.push("layer value");
-        if(!(extras.polyAreasToCover.top && extras.polyAreasToCover.sides && extras.polyAreasToCover.bottom)) invalidInputs.push("area to cover");
+        if(!extras.polyAreasToCover.top && !extras.polyAreasToCover.sides && !extras.polyAreasToCover.bottom) invalidInputs.push("area to cover");
 
         return invalidInputs;
 
@@ -193,9 +201,23 @@ function App(): JSX.Element {
 
     return(
         <>
+            <Modal size="mini" onClose={() => setDisclaimerModalOpen(false)} open={disclaimerModalOpen} >
+                <Modal.Header>Warning!</Modal.Header>
+                <Modal.Content>
+                    The prices of foam, upholstery and fabric <span className="app-disclaimer-emphasis">may be outdated</span>. Please ensure items in the quotation are accurate before providing it to the customer.
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button onClick={() => {
+                        setDisclaimerModalOpen(false) 
+                    }}>Okay</Button>
+                </Modal.Actions>
+            </Modal>
+
             <Modal size="mini" onClose={() => setClearQuotationModalOpen(false)} open={clearQuotationModalOpen} >
                 <Modal.Header>Are you sure you want to clear this quotation?</Modal.Header>
-                <Modal.Content>This action will clear ALL lines in the current quotation.</Modal.Content>
+                <Modal.Content>
+                    This action will clear <span className="app-disclaimer-emphasis">all items</span> in the current quotation.
+                </Modal.Content>
                 <Modal.Actions>
                     <Button negative onClick={() => { 
                         setTotalUserItems([]);
@@ -207,7 +229,7 @@ function App(): JSX.Element {
 
             <Modal size="mini" onClose={() => setClearInputsModalOpen(true)} open={clearInputsModalOpen} >
                 <Modal.Header>Are you sure you want to clear the data you've inputted?</Modal.Header>
-                <Modal.Content>This action will NOT clear the current quotation.</Modal.Content>
+                <Modal.Content>This action <span className="app-disclaimer-emphasis">will not</span> clear the current quotation.</Modal.Content>
                 <Modal.Actions>
                     <Button negative onClick={() => { 
                         clearUserData();
@@ -229,42 +251,48 @@ function App(): JSX.Element {
                 </Modal.Actions>
             </Modal>
 
-            <div className="app-header-container">
-                <AppHeader />
-            </div>
-            <div className="app-parent-container">
-                <div>
-                    <div className="app-foam-container">
-                        <FoamCard 
-                            currentMeasurementSystem={userFoamData.measurementSystem}
-                            handleChange={(key: string, value: string) => { setUserFoamData( (userFoamData) => { return({...userFoamData, [key]: value })})}}
-                            data={userFoamData}
-                        />
-                    </div>
-                    <div className="app-extras-upholstery-container">
-                        <div>
-                            <ExtrasCard 
-                                polyRequired={userExtrasData.polyRequired} 
-                                polySides={userExtrasData.polyAreasToCover} 
-                                handleChange={(key: string, value: string) => { setUserExtrasData( (userExtrasData) => { return({...userExtrasData, [key]: value })})}} 
-                                data={userExtrasData}
+            <div className="app-container">
+                <div className="app-header-container">
+                    <AppHeader />
+                </div>
+                <div className="app-parent-container">
+                    <div className="app-inputs-container">
+                        <div className="app-foam-container">
+                            <FoamCard 
+                                currentMeasurementSystem={userFoamData.measurementSystem}
+                                handleChange={(key: string, value: string) => { setUserFoamData( (userFoamData) => { return({...userFoamData, [key]: value })})}}
+                                data={userFoamData}
                             />
                         </div>
-                        <div>
-                            <UpholsteryCard 
-                                fabricsList={fabricsData} 
-                                upholsteryRequired={userUpholsteryData.upholsteryRequired}
-                                handleChange={(key: string, value: string) => { setUserUpholsteryData( (userUpholsteryData) => { return({...userUpholsteryData, [key]: value })})}} 
-                                data={userUpholsteryData}
-                            />
-                            <AddClearButtonsParent onAdd={handleAddUserData} onClear={handleClearUserData} />
+                        <div className="app-extras-upholstery-container">
+                            <div>
+                                <ExtrasCard 
+                                    polyRequired={userExtrasData.polyRequired} 
+                                    polySides={userExtrasData.polyAreasToCover} 
+                                    handleChange={(key: string, value: string) => { setUserExtrasData( (userExtrasData) => { return({...userExtrasData, [key]: value })})}} 
+                                    data={userExtrasData}
+                                />
+                            </div>
+                            <div>
+                                <UpholsteryCard 
+                                    fabricsList={fabricsData} 
+                                    upholsteryRequired={userUpholsteryData.upholsteryRequired}
+                                    handleChange={(key: string, value: string) => { setUserUpholsteryData( (userUpholsteryData) => { return({...userUpholsteryData, [key]: value })})}} 
+                                    data={userUpholsteryData}
+                                />
+                                <AddClearButtonsParent onAdd={handleAddUserData} onClear={handleClearUserData} />
+                            </div>
                         </div>
                     </div>
+                    <div className="app-totals-container">
+                        <TotalsWindow items={totalUserItems} onDeleteItem={(id: string) => { handleDeleteItem(id) }} onClearAll={handleClearAll} />    
+                    </div>
                 </div>
-                <div className="app-totals-container">
-                    <TotalsWindow items={totalUserItems} onDeleteItem={(id: string) => { handleDeleteItem(id) }} onClearAll={handleClearAll} />    
+                <div className="app-footer">
+                    <AppFooter />
                 </div>
             </div>
+            
         </>
     )
 }

@@ -14,7 +14,7 @@ type TotalsWindowProps = {
 function TotalsWindow(props: TotalsWindowProps): JSX.Element {
 
     function createFoamItems(): Array<JSX.Element> {
-        return props.items.map((item: UserItemObject) => <TotalsItem id={item.id} name={item.foam.name} measurements={item.foam.dimensions} quantity={item.foam.quantity} totalPrice={item.foam.totalPrice.toFixed(2)} eachPrice={item.foam.eachPrice.toFixed(2)} sku={`SKU: ${item.foam.sku}`} onDelete={(id: string) => {props.onDeleteItem(id)}} isDeletable={true} />)
+        return props.items.map((item: UserItemObject) => <TotalsItem id={item.id} name={item.foam.name} measurements={item.foam.dimensions} quantity={item.foam.quantity} totalPrice={item.foam.totalPrice.toFixed(2)} eachPrice={item.foam.eachPrice.toFixed(2)} sku={`SKU: ${item.foam.sku}`} onDelete={(id: string) => {props.onDeleteItem(id)}} isDeletable={true} image="cube" />)
     }
 
     function createPolyesterItem(): JSX.Element | undefined {
@@ -30,8 +30,9 @@ function TotalsWindow(props: TotalsWindowProps): JSX.Element {
         });
 
         const metres: number = totalPolyLength / 1000;
-
-        return <TotalsItem name="Polyester Fibre" measurements={`${metres}m`} quantity={1} totalPrice={Number(totalPolyPrice).toFixed(2)} eachPrice={"16.95"} sku="SKU: 293488" isDeletable={false}/>;
+        
+        if(totalPolyLength <= 0) return <></>
+        return <TotalsItem name="Polyester Fibre" measurements={`${metres}m`} quantity={1} totalPrice={Number(totalPolyPrice).toFixed(2)} eachPrice={"16.95"} sku="SKU: 293488" isDeletable={false} image="cut" />;
     }
 
     function createPolyesterLabourItem(): JSX.Element | undefined {
@@ -44,8 +45,8 @@ function TotalsWindow(props: TotalsWindowProps): JSX.Element {
             totalPolyLabourCost += item.extras.labourPrice;
         })
 
-        return <TotalsItem name="Labour for Cut and Glue" measurements="LABOUR" quantity={1} totalPrice={totalPolyLabourCost.toFixed(2)} sku="SKU: 813" isDeletable={false} />;
-
+        if(totalPolyLabourCost <= 0) return <></>
+        return <TotalsItem name="Labour for Cut and Glue" measurements="LABOUR" quantity={1} totalPrice={totalPolyLabourCost.toFixed(2)} sku="SKU: 813" isDeletable={false} image="wrench" />;
     }
 
     function createFabricItems(): Array<JSX.Element> {
@@ -63,8 +64,15 @@ function TotalsWindow(props: TotalsWindowProps): JSX.Element {
         return Object.keys(fabricCostMerger).map((sku: string) => {
 
             const targetFabric: UserItemObject | undefined = props.items.find((item: UserItemObject) => item.upholstery.sku === sku);
-            if(!targetFabric) return <></>;
-            return <TotalsItem name={targetFabric.upholstery.fabricName} measurements={`${(fabricCostMerger[sku].totalLength / 1000).toFixed(2)}m`} quantity={1} totalPrice={fabricCostMerger[sku].totalPrice.toFixed(2)} eachPrice={targetFabric.upholstery.fabricPmPrice.toFixed(2)} sku={`SKU: ${sku}`} isDeletable={false} />;
+            
+            if(targetFabric){
+        
+                if(targetFabric.upholstery.sku.length <= 0) return <></>;
+                return <TotalsItem name={targetFabric.upholstery.fabricName} measurements={`${(fabricCostMerger[sku].totalLength / 1000).toFixed(2)}m`} quantity={1} totalPrice={fabricCostMerger[sku].totalPrice.toFixed(2)} eachPrice={targetFabric.upholstery.fabricPmPrice.toFixed(2)} sku={`SKU: ${sku}`} isDeletable={false} image="sticky note" />;
+            
+            }
+
+            return <></>;
         
         })
 
@@ -80,7 +88,8 @@ function TotalsWindow(props: TotalsWindowProps): JSX.Element {
             totalUpholsteryLabourCost += item.upholstery.estimatedLabour;
         })
 
-        return <TotalsItem name="Upholstery Labour (estimated)" measurements="LABOUR" quantity={1} totalPrice={totalUpholsteryLabourCost.toFixed(2)} sku="SPECIAL ITEM" isDeletable={false} />;
+        if(totalUpholsteryLabourCost <= 0) return <></>;
+        return <TotalsItem name="Upholstery Labour (estimated)" measurements="LABOUR" quantity={1} totalPrice={totalUpholsteryLabourCost.toFixed(2)} sku="SPECIAL ITEM" isDeletable={false} image="wrench" />;
 
     }
 
@@ -109,6 +118,22 @@ function TotalsWindow(props: TotalsWindowProps): JSX.Element {
 
     }
 
+    function totalsContainsExtras(): boolean {
+        let containsExtras: boolean = false;
+        props.items.forEach((item: UserItemObject) => {
+            if(item.extras.polyLength > 0) containsExtras = true;
+        })
+        return containsExtras;
+    }
+
+    function totalsContainsUpholstery(): boolean {
+        let containsUpholstery: boolean = false;
+        props.items.forEach((item: UserItemObject) => {
+            if(item.upholstery.sku.length >= 0) containsUpholstery = true;
+        })
+        return containsUpholstery;
+    }
+
     return(
         <>  
             <>
@@ -125,12 +150,12 @@ function TotalsWindow(props: TotalsWindowProps): JSX.Element {
                             <div className="totals-window-foam-items-container">
                                 {createFoamItems()}
                             </div>
-                            <hr hidden={props.items.length <= 0} />
+                            <hr hidden={!totalsContainsExtras()} />
                             <div className="totals-window-extras-items-container">
                                 {createPolyesterItem()}
                                 {createPolyesterLabourItem()}
                             </div>
-                            <hr hidden={props.items.length <= 0} />
+                            <hr hidden={!totalsContainsUpholstery()} />
                             <div className="totals-window-upholstery-items-container">
                                 {createFabricItems()}
                                 {createUpholsteryLabourItem()}
