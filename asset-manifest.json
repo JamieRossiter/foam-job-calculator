@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/foam-job-calculator/static/css/main.3edb6ff8.css",
-    "main.js": "/foam-job-calculator/static/js/main.5add231e.js",
+    "main.js": "/foam-job-calculator/static/js/main.dc532cac.js",
     "static/media/VAG Rounded Regular.ttf": "/foam-job-calculator/static/media/VAG Rounded Regular.6a5945b874349cbaf1e2.ttf",
     "index.html": "/foam-job-calculator/index.html",
     "main.3edb6ff8.css.map": "/foam-job-calculator/static/css/main.3edb6ff8.css.map",
-    "main.5add231e.js.map": "/foam-job-calculator/static/js/main.5add231e.js.map"
+    "main.dc532cac.js.map": "/foam-job-calculator/static/js/main.dc532cac.js.map"
   },
   "entrypoints": [
     "static/css/main.3edb6ff8.css",
-    "static/js/main.5add231e.js"
+    "static/js/main.dc532cac.js"
   ]
 }
