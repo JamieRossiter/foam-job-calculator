@@ -4,6 +4,7 @@ import TotalsFinal from "../TotalsFinal/TotalsFinal";
 import { CostTotals, UserItemObject } from "../../utils/types"; 
 import "./TotalsWindow.css";
 import { Icon } from "semantic-ui-react";
+import { extrasConstants } from "../../utils/product_constants";
 
 type TotalsWindowProps = {
     items: Array<UserItemObject>,
@@ -14,7 +15,9 @@ type TotalsWindowProps = {
 function TotalsWindow(props: TotalsWindowProps): JSX.Element {
 
     function createFoamItems(): Array<JSX.Element> {
-        return props.items.map((item: UserItemObject) => <TotalsItem id={item.id} name={item.foam.name} measurements={item.foam.dimensions} quantity={item.foam.quantity} totalPrice={item.foam.totalPrice.toFixed(2)} eachPrice={item.foam.eachPrice.toFixed(2)} sku={`SKU: ${item.foam.sku}`} onDelete={(id: string) => {props.onDeleteItem(id)}} isDeletable={true} image="cube" />)
+        return props.items.map((item: UserItemObject) => {
+            return <TotalsItem id={item.id} name={item.foam.name} measurements={item.foam.dimensions} quantity={item.foam.quantity} totalPrice={item.foam.totalPrice.toFixed(2)} eachPrice={item.foam.eachPrice.toFixed(2)} sku={`SKU: ${item.foam.sku}`} onDelete={(id: string) => {props.onDeleteItem(id)}} isDeletable={true} image="cube" />
+        })
     }
 
     function createPolyesterItem(): JSX.Element | undefined {
@@ -32,7 +35,7 @@ function TotalsWindow(props: TotalsWindowProps): JSX.Element {
         const metres: number = totalPolyLength / 1000;
         
         if(totalPolyLength <= 0) return <></>
-        return <TotalsItem name="Polyester Fibre" measurements={`${metres}m`} quantity={1} totalPrice={Number(totalPolyPrice).toFixed(2)} eachPrice={"16.95"} sku="SKU: 293488" isDeletable={false} image="cut" />;
+        return <TotalsItem name="Polyester Fibre" measurements={`${metres}m`} quantity={1} totalPrice={Number(totalPolyPrice).toFixed(2)} eachPrice={extrasConstants.polyPrice.toString()} sku={`SKU: ${extrasConstants.polySku}`} isDeletable={false} image="cut" />;
     }
 
     function createPolyesterLabourItem(): JSX.Element | undefined {

@@ -5,25 +5,25 @@ export const densityList: Array<DropdownItem> = [
         key: "23-130",
         text: "Medium Density",
         value: "23-130",
-        image: {avatar: false, src: "cream.jpeg"}
+        image: {avatar: false, src: `${process.env.PUBLIC_URL}/cream.jpeg`}
     },
     {
         key: "29-200",
         text: "High Density",
         value: "29-200",
-        image: {avatar: false, src: "light_green.jpeg"}
+        image: {avatar: false, src: `${process.env.PUBLIC_URL}/light_green.jpeg`}
     },
     {
         key: "36-130",
         text: "Enduro",
         value: "36-130",
-        image: {avatar: false, src: "yellow.jpeg"}
+        image: {avatar: false, src: `${process.env.PUBLIC_URL}/yellow.jpeg`}
     },
     {
         key: "29-400",
         text: "High Load",
         value: "29-400",
-        image: {avatar: false, src: "charcoal.png"}
+        image: {avatar: false, src: `${process.env.PUBLIC_URL}/charcoal.png`}
     }
 ]
 

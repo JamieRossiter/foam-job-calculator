@@ -1,4 +1,5 @@
 import { CalculatedFoamData, FoamPriceDatum, UserFoamData, UserExtrasData, CalculatedExtrasData, UserUpholsteryData, CalculatedUpholsteryData } from "./types";
+import { extrasConstants } from "./product_constants";
 
 export function calculateFoam(data: UserFoamData, foamPrices: Array<FoamPriceDatum>): CalculatedFoamData {
 
@@ -45,8 +46,8 @@ export function calculateFoam(data: UserFoamData, foamPrices: Array<FoamPriceDat
 }
 
 export function calculateExtras(foamData: UserFoamData, extrasData: UserExtrasData): CalculatedExtrasData {
-    const POLY_WIDTH_MM: number = 1500;
-    const POLY_COST: number = 16.95;
+    const POLY_WIDTH_MM: number = extrasConstants.polyWidth;
+    const POLY_COST: number = extrasConstants.polyPrice;
 
     let finalPrice: number = 0;
 

@@ -34,15 +34,15 @@ function UpholsteryCard(props: UpholsteryCardProps): JSX.Element {
                 <Header className="upholstery-card-header" size="medium">3. Add Upholstery</Header>
                 <div className="upholstery-card-upholstery-container upholstery-card-subcontainer">
                     <label htmlFor="upholster-card-upholstery-checkbox">Upholstery required</label>
-                    <Checkbox checked={props.data.upholsteryRequired} id="upholstery-card-upholstery-checkbox" toggle onChange={(e: any, data: CheckboxProps) => { handleChange("upholsteryRequired", data.checked) }} />
+                    <Checkbox tabIndex={4} checked={props.data.upholsteryRequired} id="upholstery-card-upholstery-checkbox" toggle onChange={(e: any, data: CheckboxProps) => { handleChange("upholsteryRequired", data.checked) }} />
                 </div>
                 <div className="upholstery-card-fabric-container upholstery-card-subcontainer">
                     <label htmlFor="upholstery-card-fabric-input">Fabric</label>
-                    <Dropdown value={props.data.fabric.sku} id="upholstery-card-fabric-input" search selection options={generateFabricList(props.fabricsList)} disabled={!props.upholsteryRequired} onChange={(e: any, data: DropdownProps) => { handleFabricChange(data.value as string) }} />
+                    <Dropdown tabIndex={4} value={props.data.fabric.sku} id="upholstery-card-fabric-input" search selection options={generateFabricList(props.fabricsList)} disabled={!props.upholsteryRequired} onChange={(e: any, data: DropdownProps) => { handleFabricChange(data.value as string) }} />
                 </div>
                 <div className="upholstery-card-labour-container upholstery-card-subcontainer">
                     <label htmlFor="upholster-card-labour-checkbox">Labour required</label>
-                    <Checkbox checked={props.data.labourRequired} id="upholstery-card-labour-checkbox" defaultChecked toggle disabled={!props.upholsteryRequired} onChange={(e: any, data: CheckboxProps) => { handleChange("labourRequired", data.checked) }} />
+                    <Checkbox tabIndex={4} checked={props.data.labourRequired} id="upholstery-card-labour-checkbox" defaultChecked toggle disabled={!props.upholsteryRequired} onChange={(e: any, data: CheckboxProps) => { handleChange("labourRequired", data.checked) }} />
                 </div>
             </div>
         </>

@@ -7,13 +7,13 @@ function AddClearButtonsParent(props: { onAdd: Function, onClear: Function }): J
         <>
             <div className="add-clear-buttons-parent-container">
                 <div className="add-button-container add-clear-buttons-subcontainer">
-                    <Button color="blue" className="add-button" icon labelPosition="right" onClick={() => {props.onAdd()}}>
+                    <Button tabIndex={5} color="blue" className="add-button" icon labelPosition="right" onClick={() => {props.onAdd()}}>
                         Add
                         <Icon name="plus" />
                     </Button>
                 </div>
                 <div className="clear-button-container add-clear-buttons-subcontainer">
-                    <Button className="clear-button" icon labelPosition="right" onClick={() => { props.onClear() }}>
+                    <Button tabIndex={5} className="clear-button" icon labelPosition="right" onClick={() => { props.onClear() }}>
                         Clear
                         <Icon name="x" />
                     </Button>

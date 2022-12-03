@@ -39,7 +39,7 @@ function App(): JSX.Element {
     
     // Fetch fabrics from CSV file
     React.useEffect(() => {
-        fetch("fabrics_list.csv")
+        fetch(`${process.env.PUBLIC_URL}/fabrics_list.csv`)
         .then((response: any) => response.text())
         .then((data: any) => {
             setFabricsData(createFabricsData(convertCSVData(data)));
@@ -48,7 +48,7 @@ function App(): JSX.Element {
 
     // Fetch foam prices from CSV file
     React.useEffect(() => {
-        fetch("foam_prices.csv")
+        fetch(`${process.env.PUBLIC_URL}/foam_prices.csv`)
         .then((response: any) => response.text())
         .then((data: any) => {
             setFoamPricesData(createFoamPricesData(convertCSVData(data)));
@@ -99,6 +99,8 @@ function App(): JSX.Element {
             extras: userExtrasData.polyRequired ? calculateExtras(userFoamData, userExtrasData) : generateBlankExtrasData(),
             upholstery: userUpholsteryData.upholsteryRequired ? calculateUpholstery(userFoamData, userUpholsteryData) : generateBlankUpholsteryData()
         }])
+
+        clearUserData();
 
     }
 

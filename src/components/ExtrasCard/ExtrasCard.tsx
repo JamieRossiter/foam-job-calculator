@@ -31,21 +31,21 @@ function ExtrasCard(props: ExtrasCardProps) : JSX.Element {
                 </div>
                 <div className="poly-container extras-card-subcontainer">
                     <label htmlFor="poly-checkbox">Polyester fibre required</label>
-                    <Checkbox checked={props.data.polyRequired} id="poly-checkbox" toggle onChange={(e: any, data: CheckboxProps) => { handleChange("polyRequired", data.checked) }} />
+                    <Checkbox tabIndex={3} checked={props.data.polyRequired} id="poly-checkbox" toggle onChange={(e: any, data: CheckboxProps) => { handleChange("polyRequired", data.checked) }} />
                 </div>
                 <div className="layers-container extras-card-subcontainer">
                     <label htmlFor="layer-input">How many layers?</label>
-                    <Input value={props.data.layers} id="layer-input" type="number" disabled={!props.polyRequired} defaultValue={1} onChange={(e: any, data: InputOnChangeData) => { handleChange("layers", data.value)}} />
+                    <Input tabIndex={3} value={props.data.layers} id="layer-input" type="number" disabled={!props.polyRequired} defaultValue={1} onChange={(e: any, data: InputOnChangeData) => { handleChange("layers", data.value)}} />
                 </div>
                 <div className="labour-container extras-card-subcontainer">
                     <label htmlFor="labour-checkbox">Glue/labour required</label>
-                    <Checkbox checked={props.data.glueRequired} id="labour-checkbox" toggle defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handleChange("glueRequired", data.checked) }} />
+                    <Checkbox tabIndex={3} checked={props.data.glueRequired} id="labour-checkbox" toggle defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handleChange("glueRequired", data.checked) }} />
                 </div>
                 <div className="sides-container extras-card-subcontainer">
                     <label htmlFor="sides-checkbox" id="sides-container-header-label">Area to cover</label>
-                    <Checkbox checked={props.data.polyAreasToCover.top} id="top-sides-checkbox" name="sides-checkbox" label="Top" defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handlePolySidesChange("top", props.polySides, data.checked) }} />
-                    <Checkbox checked={props.data.polyAreasToCover.sides} id="sides-sides-checkbox" name="sides-checkbox" label="Sides" defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handlePolySidesChange("sides", props.polySides, data.checked) }}  />
-                    <Checkbox checked={props.data.polyAreasToCover.bottom} id="bottom-sides-checkbox" name="sides-checkbox" label="Bottom" defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handlePolySidesChange("bottom", props.polySides, data.checked) }} />
+                    <Checkbox tabIndex={3} checked={props.data.polyAreasToCover.top} id="top-sides-checkbox" name="sides-checkbox" label="Top" defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handlePolySidesChange("top", props.polySides, data.checked) }} />
+                    <Checkbox tabIndex={3} checked={props.data.polyAreasToCover.sides} id="sides-sides-checkbox" name="sides-checkbox" label="Sides" defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handlePolySidesChange("sides", props.polySides, data.checked) }}  />
+                    <Checkbox tabIndex={3} checked={props.data.polyAreasToCover.bottom} id="bottom-sides-checkbox" name="sides-checkbox" label="Bottom" defaultChecked disabled={!props.polyRequired} onChange={(e: any, data: CheckboxProps) => { handlePolySidesChange("bottom", props.polySides, data.checked) }} />
                 </div>
             </div>
         </>
