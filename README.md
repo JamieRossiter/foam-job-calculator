@@ -1,6 +1,6 @@
 <div align="center">
 	<img src="./public/logo.png" alt="Clark Rubber Logo">
-	<p>Foam and Upholstery Calculator</p>
+	<h1>Foam and Upholstery Calculator</h1>
 </div>
 
 ### Background
