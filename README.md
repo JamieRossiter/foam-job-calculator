@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="./logo.png" alt="Clark Rubber Logo">
+	<img src="./public/logo.png" alt="Clark Rubber Logo">
 	<p>Foam and Upholstery Calculator</p>
 </div>
 
@@ -20,8 +20,8 @@ The introduction of this tool reportedly increased employee productivity and cus
 - Semantic UI
 
 ### [Demo][demo]
-[Demo]: http://https://jamierossiter.github.io/foam-job-calculator/ "Demo"
+[Demo]: https://jamierossiter.github.io/foam-job-calculator/ "Demo"
 
 <div align="center">
-	<img src="./example.gif" alt="Example Gif">
+	<img src="./public/example.gif" alt="Example Gif">
 </div>
